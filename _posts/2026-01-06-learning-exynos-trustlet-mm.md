@@ -5,7 +5,9 @@ date:   2026-01-06 23:35:55 +0630
 categories: android exynos
 tags: exynos security trustlet vulnerability mm
 ---
-ဒီနေ့တော့ 2020 တုန်းက Disclosure လုပ်ပြီးသား Vulnerability အဟောင်းတခုကို ပြန်လည်လေ့လာမှာဖြစ်ပါတယ်။ Android 8.0 ကနေ Android 10 အတွင်းထိရှိခဲ့တဲ့ Samsung ရဲ့ Exynos PoC သုံးဖုန်းတွေထဲမှာ ပါတဲ့ **Widevine Trustlet** (Trusted Application - TA) တခုထဲမှာ ဖြစ်ပေါ်ခဲ့တဲ့ **Arbitrary Memory Read/Write Vulnerability** တစ်ခုဖြစ်ပါတယ်။ CVE နံပတ် **CVE-2020-10836** (**SVE-2019-15874**) ဖြစ်ပါတယ်။ ဒီ bug က တကယ်တော့ `memcpy` function တခုရဲ့ Source, Destination, Length ၃ ခုလုံးကို attacker စိတ်ကြိုက် ပေးလို့ရနေတဲ့အတွက် **Arbitrary Memory Read/Write** လို့ခေါ်တာဖြစ်ပါတယ်။ **Widevine DRM** ကနေ Hash နဲ့ဆိုင်တဲ့ ကိစ္စတွေလုပ်ဆောင်တဲ့အခါ တက်လာတဲ့ **Hash Error Code Number** ကို Shared Memory ပေါ်ကူးတင်  နိုင်ဖို့အတွက် ပြုလုပ်ထားတဲ့ function တခုရဲ့ bug ပါ။ Widevine ရဲ့ **Shared Memory** ထဲမှာ sensitive user information တွေပါနိုင်တဲ့အတွက် Severity High လို့ ဖော်ပြခဲ့တဲ့ bug တခုပါ။ ဒီ blog မှာတော့ PoC ကို အပြည့်အဝ မဖော်ပြနိုင်ပါဘူး။ ဘာကြောင့်ဆို Android အမြင့်တွေမှာလဲ Downgrade Attack နဲ့ ဒီ bug ကို trigger လုပ်နိုင်နေသေးလို့ပါ။ ကျနော်တော့ Android 13 စက်မှာ TA Downgrade နည်းနဲ့  PoC ရခဲ့ပါတယ်။
+ဒီနေ့တော့ 2020 တုန်းက Disclosure လုပ်ပြီးသား Vulnerability အဟောင်းတခုကို ပြန်လည်လေ့လာမှာဖြစ်ပါတယ်။ Android 8.0 ကနေ Android 10 အတွင်းထိရှိခဲ့တဲ့ Samsung ရဲ့ Exynos PoC သုံးဖုန်းတွေထဲမှာ ပါတဲ့ **Widevine Trustlet** (Trusted Application - TA) တခုထဲမှာ ဖြစ်ပေါ်ခဲ့တဲ့ **Arbitrary Memory Read/Write Vulnerability** တစ်ခုဖြစ်ပါတယ်။
+
+CVE နံပတ် **CVE-2020-10836** (**SVE-2019-15874**) ဖြစ်ပါတယ်။ ဒီ bug က တကယ်တော့ `memcpy` function တခုရဲ့ Source, Destination, Length ၃ ခုလုံးကို attacker စိတ်ကြိုက် ပေးလို့ရနေတဲ့အတွက် **Arbitrary Memory Read/Write** လို့ခေါ်တာဖြစ်ပါတယ်။ **Widevine DRM** ကနေ Hash နဲ့ဆိုင်တဲ့ ကိစ္စတွေလုပ်ဆောင်တဲ့အခါ တက်လာတဲ့ **Hash Error Code Number** ကို Shared Memory ပေါ်ကူးတင်  နိုင်ဖို့အတွက် ပြုလုပ်ထားတဲ့ function တခုရဲ့ bug ပါ။ Widevine ရဲ့ **Shared Memory** ထဲမှာ sensitive user information တွေပါနိုင်တဲ့အတွက် Severity High လို့ ဖော်ပြခဲ့တဲ့ bug တခုပါ။ ဒီ blog မှာတော့ PoC ကို အပြည့်အဝ မဖော်ပြနိုင်ပါဘူး။ ဘာကြောင့်ဆို Android အမြင့်တွေမှာလဲ Downgrade Attack နဲ့ ဒီ bug ကို trigger လုပ်နိုင်နေသေးလို့ပါ။ ကျနော်တော့ Android 13 စက်မှာ TA Downgrade နည်းနဲ့  PoC ရခဲ့ပါတယ်။
 
 > SVE-2019-15873: Arbitrary memory read/write vulnerability in Widevine Trustlet 
 > Severity: High
@@ -63,7 +65,7 @@ TA တခုရဲ့ အစမှာ ဝင်ရောက်လာတဲ့ Co
 
 ### Target Trustlet Application: Widevine DRM
 
-TEEGRIS OS အတွက် TA ဖိုင်တွေက များသောအားဖြင့် `/system/tee`  , `/vendor/tee` အောက်မှာ ရှိကြပါတယ်။ သူတို့ဟာ အခြေခံအားဖြင့် ELF Binary File Structure နဲ့ လာပါတယ်။ သူ့ရဲ့ file magic က `SECx` နဲ့ စကြပြီးတော့ `x` နေရာက TA Security Version ပါ။ `SEC3` ကနေ စဖြစ်တော့ TA Version Downgrade ဆင်းလို့မရနိုင်အောင် `RPMB` partition ထဲမှာ TA ရဲ့ current supported version ကို ထည့်မှတ် သိမ်းလာတယ်လို့ ဒီ blog အရ သိခဲ့ရပါတယ်။ [ REFERENCE TO THE BLOG ]
+TEEGRIS OS အတွက် TA ဖိုင်တွေက များသောအားဖြင့် `/system/tee`  , `/vendor/tee` အောက်မှာ ရှိကြပါတယ်။ သူတို့ဟာ အခြေခံအားဖြင့် ELF Binary File Structure နဲ့ လာပါတယ်။ သူ့ရဲ့ file magic က `SECx` နဲ့ စကြပြီးတော့ `x` နေရာက TA Security Version ပါ။ `SEC3` ကနေ စဖြစ်တော့ TA Version Downgrade ဆင်းလို့မရနိုင်အောင် `RPMB` partition ထဲမှာ TA ရဲ့ current supported version ကို ထည့်မှတ် သိမ်းလာတယ်လို့ keysight blog မှတဆင့် သိခဲ့ရပါတယ်။
 
 ကျနော်တို့ လက်ရှိ Widevine TA ကတော့ `SEC2` ဆိုတော့ ကျနော်တို့ PoC အတွက် အလုပ်မရှုပ်တော့ဘူးပေါ့ဗျာ .
 
@@ -86,7 +88,9 @@ Android စနစ်ထဲက `liboemcrypto.so` ဆိုတာက DRM နဲ့
 
 ### LibTEECL.so
 
-`libteecl.so` ဆိုတာက Android (Normal World) နဲ့ Secure OS (TEE) ကို ဆက်သွယ်ပေးတဲ့ client library တစ်ခုပါ။ ကျနော်တို့ PoC မှာ main executable က `libteecl` ကို ခေါ်ယူသုံးစွဲမှာပါ။ ဒါမှလည်း TEE ထဲကို ပို့ချင်တဲ့ data တွေပို့လို့ရမှာပါ။ `libteecl` က ပုံမှန်အားဖြစ် TA image တွေကို `/vendor/tee` folder ထဲကပဲ ရှာပြီး load ပါတယ်။ Vulnerable TA က Android 10.0 က TA ဖြစ်ပြီးတော့ ကျနော့် Test Device က Android version 13 ပါ။ Android 13 မှာ Widevine Trustlet TA ရဲ့ ဒီ bug က ပြင်ပြီးသွားပါပြီ။ အဲ့တော့ Vulnerable TA version ကို Android 13 ပေါ်မှာ လှမ်းခေါ်သုံးဖို့ ပြင်ဆင်ရပါတော့မယ်။ ကျနော်တို့က older TA version ကို ခေါ်သုံးမှာဆိုတော့ မူလ `libteecl` ကို ပြုပြင်ဖို့ လိုပါအုံးမယ်။ [ MENTION BLOG POST HERE ]  ပြင်လိုက်တဲ့နောက်မှာ `/data/local/tmp` ထဲက TA ဖိုင်တွေကိုသာ load ပါတော့တယ်။ အောက်ပါ code ကတော့ `libteecl` က TA file ကို `vendor/tee` ထဲက ခေါ်ပြီး UUID Parse လုပ်နေရာပါ။
+`libteecl.so` ဆိုတာက Android (Normal World) နဲ့ Secure OS (TEE) ကို ဆက်သွယ်ပေးတဲ့ client library တစ်ခုပါ။ ကျနော်တို့ PoC မှာ main executable က `libteecl` ကို ခေါ်ယူသုံးစွဲမှာပါ။ ဒါမှလည်း TEE ထဲကို ပို့ချင်တဲ့ data တွေပို့လို့ရမှာပါ။ `libteecl` က ပုံမှန်အားဖြစ် TA image တွေကို `/vendor/tee` folder ထဲကပဲ ရှာပြီး load ပါတယ်။ Vulnerable TA က Android 10.0 က TA ဖြစ်ပြီးတော့ ကျနော့် Test Device က Android version 13 ပါ။ Android 13 မှာ Widevine Trustlet TA ရဲ့ ဒီ bug က ပြင်ပြီးသွားပါပြီ။ အဲ့တော့ Vulnerable TA version ကို Android 13 ပေါ်မှာ လှမ်းခေါ်သုံးဖို့ ပြင်ဆင်ရပါတော့မယ်။ 
+
+ကျနော်တို့က older TA version ကို ခေါ်သုံးမှာဆိုတော့ မူလ `libteecl` ကို ပြုပြင်ဖို့ လိုပါအုံးမယ်။ ပြင်လိုက်တဲ့နောက်မှာ `/data/local/tmp` ထဲက TA ဖိုင်တွေကိုသာ load ပါတော့တယ်။ အောက်ပါ code ကတော့ `libteecl` က TA file ကို `vendor/tee` ထဲက ခေါ်ပြီး UUID Parse လုပ်နေရာပါ။
 
 ```c
       v41[36] = 0;
@@ -137,7 +141,7 @@ typedef struct libteecl_handle_t {
 ....
 ```
 
-ဒထဲက အရေးကြီးတဲ့ exported symbols တခုကတော့ `TEEC_InvokeCommand` ။ သူက app ကနေ TA ဆီကို ပို့ဆောင်မယ့် data တွေကို commandID နဲ့ အတူ ပို့ဆောင်ပေးပါတယ်။ TA ဖက်က response ပြန်လာတဲ့ data တွေကိုတော့ `TEEC_SharedMemory` တခုခုထဲမှာ သိမ်းဆည်းပေးပါလိမ့်မယ်။
+ဒီထဲက အရေးကြီးတဲ့ exported symbols တခုကတော့ `TEEC_InvokeCommand` ။ သူက app ကနေ TA ဆီကို ပို့ဆောင်မယ့် data တွေကို commandID နဲ့ အတူ ပို့ဆောင်ပေးပါတယ်။ TA ဖက်က response ပြန်လာတဲ့ data တွေကိုတော့ `TEEC_SharedMemory` တခုခုထဲမှာ သိမ်းဆည်းပေးပါလိမ့်မယ်။
 
 PoC executable အတွက် Local Privilidge ရှိပြီးသား (Root) ပြီးသား စက်နဲ့ `widevine_tee` ကို ပြင်ထားပြီးသား `libteecl.so` မှတဆင့် Android 10 ရဲ့ `00000000-0000-0000-0000-00575644524d` TA ကို `/data/local/tmp` ထဲ ခေါ်ကြည့်ပါမယ်။
 
@@ -222,31 +226,49 @@ int arbitrary_read(void* src_addr, size_t length, bool hex_group_dump)
 
 ### Command ID 0x1108
 
-ဒါကတော့ `0x1108` ကို **512** length နဲ့ ခေါ်ထားတာ။ Shared Memory တခုလုံးရဲ့ data တွေထွက်လာပါတယ်။ ကျနော်တို့ ထည့်လိုက်တဲ့ Pointer ထဲက **0xDEADBEEF** တန်ဖိုးက Shared Memory ရဲ့ ထိပ်ဆုံးမှာ ရှိနေပြီးတော့ ကျန်တာတွေက Arbitrary Read data တွေပါ။
+ဒါကတော့ `0x1108` ကို **512** length နဲ့ ခေါ်ထားတာ။ Shared Memory ရဲ့ ထိပ်ပိုင်း data တွေထွက်လာပါတယ်။ ကျနော်တို့ ထည့်လိုက်တဲ့ Pointer ထဲက **0xDEADBEEF** တန်ဖိုးက Shared Memory ရဲ့ ထိပ်ဆုံးမှာ ရှိနေပြီးတော့ ကျန်တာတွေက Arbitrary Read data တွေပါ။
 
 ![Screenshot 2026-01-03 at 2.02.25 PM.png]({{"/assets/imgs/learning-from-exynos/Screenshot_2026-01-03_at_2.02.25_PM.png" | relative_url}})
 
 ## Conclusion
 
-ဒါက ကျနော် Exynos iROM (BootROM) နဲ့ ပတ်သက်တဲ့ Research တခုမှာ ပါဝင်ခဲ့တဲ့ PoC တခုပါ။ တကယ်တမ်းတော့ Arbitrary Read/Write Bug တခုထဲနဲ့ TEEGRIS Kernel ထဲထိ ရောက်ဖို့ မလုံလောက်သေးပါဘူး။ တခြား Samsung ရဲ့ disclosed bug တွေဖြစ်တဲ့ Stack-based overflow, Memory Leaks, ASLR bypass, Stack canary bypass တို့နဲ့ပေါင်းပြီး ROP Chain တခု တည်ဆောက်နိုင်တဲ့ထိမှ TEE Kernel ထဲထည့် ရောက်နိုင်မှာပါ။ လောလောဆယ်တော့ ဒီထိပဲ Brain Dump ပါရစေ ..
+ဒါက ကျနော် Exynos iROM (BootROM) နဲ့ ပတ်သက်တဲ့ Research တခုမှာ ပါဝင်ခဲ့တဲ့ PoC တခုပါ။ တကယ်တမ်းတော့ Arbitrary Read/Write Bug တခုထဲနဲ့ TEEGRIS Kernel ထဲထိ ရောက်ဖို့ မလုံလောက်သေးပါဘူး။ တခြား Samsung ရဲ့ disclosed bug တွေဖြစ်တဲ့ Stack-based overflow, Memory Leaks, ASLR bypass, Stack canary bypass တို့နဲ့ပေါင်းပြီး ROP Chain တခု တည်ဆောက်နိုင်တဲ့ထိမှ TEE Kernel ထဲထည့် ရောက်နိုင်မှာပါ။ သင်ယူစရာတွေအများကြီးရှိပါသေးတယ်။ device တွေစမ်းဖို့ကူညီပေးခဲ့တဲ့ အကိုတွေ ကျေးဇူးပါ။ Reference ယူခဲ့တဲ့ blog တွေကိုဆီကလည်း အများကြီး ရခဲ့ပါတယ် .. 
+လောလောဆယ်တော့ ဒီထိပဲ Brain Dump ပါရစေ ..
 
 ## References
 
 [Breaking TEE Security 1](https://www.keysight.com/blogs/en/tech/nwvs/2021/02/23/breaking-tee-security-part-1)
+
 [Breaking TEE Security 2](https://www.keysight.com/blogs/en/tech/nwvs/2021/03/12/breaking-tee-security-part-2)
+
 [Breaking TEE Security 3](https://www.keysight.com/blogs/en/tech/nwvs/2021/03/30/breaking-tee-security-part-3)
+
 [THALIUM ARM TrustZone: Pivoting to the Secure World](https://blog.thalium.re/posts/pivoting_to_the_secure_world/)
+
 [QEMU TEEGRIS ARM64](https://github.com/astarasikov/qemu/tree/teegris_arm64_2025-08-19)
+
 [QEMU TEEGRIS TA](https://github.com/astarasikov/qemu/tree/teegris_ta_2024-06-25)
+
 [Awesome Android Security](https://github.com/NetKingJ/awesome-android-security)
+
 [Android Security Exploits YouTube Curriculum](https://github.com/actuator/Android-Security-Exploits-YouTube-Curriculum)
+
 [TEE Knox Cryptography](https://github.com/uv-goswami/Cryptography/blob/main/1.%20Core_Concepts/TEE_Knox.md)
+
 [OffensiveCon22 Federico Menarini and Martijn Bogaard](https://youtu.be/XvmtEwkG_Cc?si=bNdeNneHmW4GHwC3)
+
 [Black Hat Breaking Samsung's Root of Trust](https://youtu.be/BwFtOrkKlbo?si=9fPLp2GVjM4KOgn6)
+
 [https://allsoftwaresucks.blogspot.com/2019/05/reverse-engineering-samsung-exynos-9820.html](https://allsoftwaresucks.blogspot.com/2019/05/reverse-engineering-samsung-exynos-9820.html)
+
 [LibTeec API](https://docs.tizen.org/application/web/api/10.0/device_api/mobile/tizen/libteec.html)
+
 [GlobalPlatform API - OP-TEE](https://optee.readthedocs.io/en/3.18.0/architecture/globalplatform_api.html)
+
 [https://chalkiadakis.me/posts/lakectf23/trust-mee/](https://chalkiadakis.me/posts/lakectf23/trust-mee/)
+
 [https://github.com/enovella/TEE-reversing](https://github.com/enovella/TEE-reversing)
+
 [https://github.com/teesec-research/optee_examples/](https://github.com/teesec-research/optee_examples)
+
 [KeyBuster](https://github.com/shakevsky/keybuster)
