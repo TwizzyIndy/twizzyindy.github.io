@@ -23,7 +23,7 @@ email: twizzy.indy@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   sharing things
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://twizzyindy.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: twizzyindy
 github_username:  TwizzyIndy
 google_analytics: G-VP9QQ4ZY8X
