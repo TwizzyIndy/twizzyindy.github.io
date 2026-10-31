@@ -52,3 +52,11 @@ plugins:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+
+# Silence Sass deprecation warnings coming from the minima theme's stylesheets
+sass:
+  silence_deprecations:
+    - import
+    - global-builtin
+    - color-functions
+    - slash-div
