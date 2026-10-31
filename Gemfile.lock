@@ -15,7 +15,7 @@ GEM
     ffi (1.17.3)
     ffi (1.17.3-arm-linux-gnu)
     ffi (1.17.3-arm-linux-musl)
-    ffi (1.17.3-arm64-darwin)
+    ffi (1.17.3-x64-mingw-ucrt)
     forwardable-extended (2.6.0)
     google-protobuf (4.33.2)
       bigdecimal
@@ -83,19 +83,24 @@ GEM
       google-protobuf (~> 4.31)
     sass-embedded (1.97.2-arm-linux-musleabihf)
       google-protobuf (~> 4.31)
-    sass-embedded (1.97.2-arm64-darwin)
-      google-protobuf (~> 4.31)
     sass-embedded (1.97.2-riscv64-linux-android)
       google-protobuf (~> 4.31)
     sass-embedded (1.97.2-riscv64-linux-gnu)
       google-protobuf (~> 4.31)
     sass-embedded (1.97.2-riscv64-linux-musl)
       google-protobuf (~> 4.31)
+    sass-embedded (1.97.2-x64-mingw-ucrt)
+      google-protobuf (~> 4.31)
     sass-embedded (1.97.2-x86_64-linux-android)
       google-protobuf (~> 4.31)
     terminal-table (3.0.2)
       unicode-display_width (>= 1.1.1, < 3)
+    tzinfo (2.0.6)
+      concurrent-ruby (~> 1.0)
+    tzinfo-data (1.2026.6)
+      tzinfo (>= 1.0.0)
     unicode-display_width (2.6.0)
+    wdm (0.2.0)
     webrick (1.9.2)
 
 PLATFORMS
@@ -105,10 +110,10 @@ PLATFORMS
   arm-linux-gnueabihf
   arm-linux-musl
   arm-linux-musleabihf
-  arm64-darwin-24
   riscv64-linux-android
   riscv64-linux-gnu
   riscv64-linux-musl
+  x64-mingw-ucrt
   x86_64-linux-android
 
 DEPENDENCIES
@@ -133,7 +138,7 @@ CHECKSUMS
   ffi (1.17.3) sha256=0e9f39f7bb3934f77ad6feab49662be77e87eedcdeb2a3f5c0234c2938563d4c
   ffi (1.17.3-arm-linux-gnu) sha256=5bd4cea83b68b5ec0037f99c57d5ce2dd5aa438f35decc5ef68a7d085c785668
   ffi (1.17.3-arm-linux-musl) sha256=0d7626bb96265f9af78afa33e267d71cfef9d9a8eb8f5525344f8da6c7d76053
-  ffi (1.17.3-arm64-darwin) sha256=0c690555d4cee17a7f07c04d59df39b2fba74ec440b19da1f685c6579bb0717f
+  ffi (1.17.3-x64-mingw-ucrt) sha256=5f1d7d067a9a1058ad183dba25b05557cd51c85fc1768c49338eabc1cf242d7c
   forwardable-extended (2.6.0) sha256=1bec948c469bbddfadeb3bd90eb8c85f6e627a412a3e852acfd7eaedbac3ec97
   google-protobuf (4.33.2) sha256=748150d6c642fd655ef39efa23ecf2abe6d616020039a6d1c1764be1da530315
   http_parser.rb (0.8.1) sha256=9ae8df145b39aa5398b2f90090d651c67bd8e2ebfe4507c966579f641e11097a
@@ -163,13 +168,16 @@ CHECKSUMS
   sass-embedded (1.97.2-arm-linux-androideabi) sha256=bb1c76b7b4e3d234534da20e89f2d64626ec90be0079be4a8f2beacec61cb009
   sass-embedded (1.97.2-arm-linux-gnueabihf) sha256=fb9b5a5a7060f39288db046ef29b31fd90c7f7d77ed834be26c2f45d6e4ebceb
   sass-embedded (1.97.2-arm-linux-musleabihf) sha256=541d76f347f06702bb21a8367b32ed6b9354cdb8108bdd0955c666fae515422c
-  sass-embedded (1.97.2-arm64-darwin) sha256=f14fa9f90645ee72aef824c161e692a2ad0f9faa94d6cd003b2c66bbf8341b98
   sass-embedded (1.97.2-riscv64-linux-android) sha256=08c9d348694770a5e409d0f1e42dad94684f35a7a356410219b00f3ec84c5b47
   sass-embedded (1.97.2-riscv64-linux-gnu) sha256=d8c94f804e77e296ab932eff7e742fdabfb20a049448fa0b62a7634a60918e50
   sass-embedded (1.97.2-riscv64-linux-musl) sha256=3d5f97026c21afba246994a47667f8f75cce920c20840f8f8d33a9b018df855d
+  sass-embedded (1.97.2-x64-mingw-ucrt) sha256=4161a5634049896b024d4b99c1b1d8650100890003aa0de450df395f7a8b38be
   sass-embedded (1.97.2-x86_64-linux-android) sha256=54da8348b985d0b6efd1fd4bb9b3f6cc6044ddbd042ac3d15314db755700e87b
   terminal-table (3.0.2) sha256=f951b6af5f3e00203fb290a669e0a85c5dd5b051b3b023392ccfd67ba5abae91
+  tzinfo (2.0.6) sha256=8daf828cc77bcf7d63b0e3bdb6caa47e2272dcfaf4fbfe46f8c3a9df087a829b
+  tzinfo-data (1.2026.6) sha256=fefda3d5a0f26730d7464f2853ceb021cb2eb1f1f504da2108ea1ce5d5309670
   unicode-display_width (2.6.0) sha256=12279874bba6d5e4d2728cef814b19197dbb10d7a7837a869bab65da943b7f5a
+  wdm (0.2.0) sha256=c46d9dcb6d375199ca07465bc67669ee8f041aeaa55dd7dafe6de4dd97b27647
   webrick (1.9.2) sha256=beb4a15fc474defed24a3bda4ffd88a490d517c9e4e6118c3edce59e45864131
 
 BUNDLED WITH
